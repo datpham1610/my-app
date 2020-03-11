@@ -1,0 +1,112 @@
+.body{
+    font-size: 13px;
+    overflow-x: hidden;
+}
+.html{
+    overflow-x: hidden; 
+}
+.root{
+    overflow-x:hidden;
+}
+.custom-bg{
+    background: rgb(97,220,251);
+    height: 100vh   ;
+}
+.custom-bg .bg-black{
+    background: rgb(58,63,73);
+    padding:  20px 30px;
+    height: 80vh;
+    border-radius: 10px;
+}
+.custom-bg .bg-black .task-filter{
+    color:#bdbdbd;
+    font-size: 18px;
+    padding: 15px;
+    cursor: pointer;
+}
+.custom-bg .bg-black .task-filter.active{
+    color:#fff
+}
+.custom-bg .bg-black .heading-left{
+    padding:15px 0
+}
+.custom-bg .bg-black .heading-left .date{
+    color:#fff;
+    font-size: 18px;
+}
+.custom-bg .bg-black .heading-left .count-active-tasks{
+    color:rgb(156, 199, 216);
+}
+.custom-bg .bg-black .form-custom{
+    padding:15px 0
+}
+.custom-bg .bg-black .form-custom .input-task:focus{
+    outline: none;
+}
+.custom-bg .bg-black .form-custom .input-task{
+    padding:6px 10px;
+    border-radius: 3px;
+    width:35%;
+    border:0;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.5);
+}
+.custom-bg .bg-black .form-custom .btn-add{
+    
+    background:rgb(96,220,251);
+    padding: 6px 10px;
+    border:0;
+    text-align: center;
+    border-radius: 3px;
+    margin:0 10px ;
+    color:#fff
+}
+.custom-bg .bg-black .form-custom .btn-add:focus{
+    outline:none
+}
+.custom-bg .bg-black .taskk{
+    padding:15px 0;
+    color:#fff;
+    border-top: 1px solid #bdbdbd;
+    border-bottom: 1px solid #bdbdbd;
+    font-size: 20px;
+}
+.custom-bg .bg-black .taskk .i-trash{
+    cursor: pointer;
+    color:#fff!important;
+    font-size: 20px;
+    text-decoration: none;
+}
+.custom-bg .bg-black .taskk .i-check{
+    color:#fff!important;
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+}
+@media(min-width:1200px){
+    .ml-10px{
+        margin-left: 10px;
+    }
+}
+@media(max-width:768px){
+    .custom-bg .bg-black .form-custom .btn-add{
+        width: 25%;
+    }
+}
+@media(max-width:480px){
+    .custom-bg .bg-black .heading-left{
+        padding:10px 0
+    }
+    .custom-bg .bg-black .task-filter{
+        padding: 10px 0;
+    }
+    .custom-bg .bg-black .form-custom .input-task{
+        width: 100%;
+        margin-top: 5px;
+    }
+    .custom-bg .bg-black .form-custom .btn-add{
+        width: unset;
+        margin:5px 0
+    }
+}
