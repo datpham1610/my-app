@@ -1,7 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import classnames from 'classnames'
 import DateTime from '../components/Date'
+
+const Input =({
+  id,
+  content,
+  handleChangeEidt,
+}) => {
+  const [showedit, _changeEdit] = useState(false);
+
+  const _editValue = () => {
+    _changeEdit(true);
+  }
+
+  const focusInput = (component) => {
+    if (component) {
+      component.focus();
+    }
+  };
+
+  const _editDone = event => {
+    if(event.keyCode === 13 || event.type==='mouseout') {
+      _changeEdit(false);
+    }
+  }
+
+  return (
+  <>
+  <div className={classnames(" col-md-6 task-edit", showedit === false ? 'd-static' :'d-none')} 
+    onClick={_editValue}>{content}</div>
+    <div className={classnames('col-md-6 task-edit',showedit === true ? 'd-static' :'d-none')} >
+      <input 
+        ref={focusInput} 
+        className='form-control'
+        type='text' 
+        onMouseOut={_editDone}
+        onKeyDown={_editDone}
+        onChange={event => handleChangeEidt(event,id)}
+        defaultValue={content}
+      />
+    </div>
+    </>
+)
+  }
 
 class MainTasks extends React.Component{
     constructor(props){
@@ -13,7 +55,6 @@ class MainTasks extends React.Component{
       this.toggleFilter = this.toggleFilter.bind(this);
       this.inputDeadline = this. inputDeadline.bind(this);
       this.handleEditting = this.handleEditting.bind(this);
-      this.handleEditDone = this.handleEditDone.bind(this);
       this.handleChangeEidt = this.handleChangeEidt.bind(this);
       this.state={
         tasks: [
@@ -58,7 +99,8 @@ class MainTasks extends React.Component{
     
         this.setState({text:''});
 
-        this.setState({deadLine:''});
+        this.setState({deadline:''});
+
       } else {alert('Please fill in the input')}
     }
     handleRemove(uid){
@@ -81,27 +123,37 @@ class MainTasks extends React.Component{
       this.setState({tasks:tasks})
     }
     
-    handleEditting(e){
+    handleEditting(id){
+      
       this.setState({showedit:true})
     }
 
-    handleChangeEidt(e){
-      this.setState({
-        textedit: e.target.value
-      }) 
-      
+    handleChangeEidt(e, id){
+      let tasks = [...this.state.tasks];
+
+      let newTasks = tasks.map(task => {
+        if(task.id === id) {
+          return {
+            ...task,
+            content: e.target.value,
+          }
+        }
+        return task;
+      });
+
+      this.setState({tasks: newTasks});
     }
 
-    handleEditDone(event,uid){
-     if(event.keyCode == 13) {
-      for(const item of this.state.tasks){
-        if(item.id  === uid ){
-          item.content = this.state.textedit;
-        }
-      }
-      this.setState({showedit:false})
-     }
-    }
+    // handleEditDone(event,uid){
+    //  if(event.keyCode == 13) {
+    //   for(const item of this.state.tasks){
+    //     if(item.id  === uid ){
+    //       item.content = this.state.textedit;
+    //     }
+    //   }
+    //   // this.setState({showedit:false})
+    //  }
+    // }
 
     render(){
       return (
@@ -147,7 +199,7 @@ class MainTasks extends React.Component{
                         <div className="col-md-1">
                           <a href="#" className="i-check" onClick={this.changeStatus.bind(this,value.id)} ><i className="fa fa-check" aria-hidden="true"></i></a>
                         </div>
-                        <div className={classnames(" col-md-6 task-edit",this.state.showedit === false ? 'd-static' :'d-none')} onClick={this.handleEditting}>{value.content}</div>
+                        {/* <div className={classnames(" col-md-6 task-edit",this.state.showedit === false ? 'd-static' :'d-none')} onClick={this.handleEditting}>{value.content}</div>
                         <div className={classnames('col-md-6 task-edit',this.state.showedit === true ? 'd-static' :'d-none')} >
                           <input 
                             className='form-control'
@@ -156,7 +208,13 @@ class MainTasks extends React.Component{
                             onChange={this.handleChangeEidt}
                             defaultValue={value.content}
                           />
-                        </div>
+                        </div> */}
+                        <Input 
+                        {...value}
+                        handleChangeEidt={this.handleChangeEidt}
+                        // handleEditDone={(event) => this.handleEditDone(event,value.id)}
+                          // value={value.content}
+                        />
                         <div className=" col-md-2 text-center" > {value.created } 
                         </div>
                         <div className=" col-md-2 text-center" > {value.dead } 
