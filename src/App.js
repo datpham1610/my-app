@@ -7,7 +7,9 @@ class App extends Component {
       <div className='row'>
         <div className='col-lg-12'>
           <div className='d-md-flex d-flex flex-column justify-content-center custom-bg'>
-            <MainTasks/>
+            <div className='row'>
+              <MainTasks/>
+            </div>
           </div>
         </div>
       </div>

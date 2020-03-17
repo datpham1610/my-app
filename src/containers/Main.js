@@ -45,6 +45,86 @@ const Input =({
 )
   }
 
+  function TasksActive(props){
+    return (
+      <div className="count-active-tasks">{props.arr.length} Active Tasks</div>
+    )
+  }
+
+  function ToggleFilter({
+    filter,
+    Toggle,
+  }){
+    return(
+      <div className="row">
+        <div className={classnames('col-md-6 text-center task-filter', filter === 0 && "active")} onClick={() => Toggle(0)}>Incomplete Tasks</div>
+        <div className={classnames('col-md-6 text-center task-filter', filter === 1 && "active")} onClick={() => Toggle(1)}>Completed Tasks </div>
+      </div>
+    )
+  }
+
+  function AddTask({
+    Change,
+    Title,
+    ChangeDeadline,
+    Deadline,
+    Add
+  }){
+    return(
+      <div className="col-lg-7">
+        <form className="form-custom" onSubmit={Add}>
+          <input className="input-task" placeholder="Enter a task..." type="text" 
+            onChange={Change}
+            value={Title}
+          />
+          <input className="input-task ml-10px" placeholder="Enter a deadline..." type="text" 
+            onChange={ChangeDeadline}
+            value={Deadline}
+          />
+          <button type="submit" className="btn-add" >Add Tasks</button>
+        </form>
+      </div>
+    )
+  }
+
+  function ShowTasks({
+    tasks,
+    status,
+    changeStatus,
+    Remove,
+    ChangeEidt
+  }){
+    return(
+      <div className="col-lg-12 mt-lg-4" >
+      {
+        tasks.map(value => {
+          if(value.status === status){
+            return(
+            <div className= "row taskk" key={value.id}>
+              <div className="col-md-1">
+                <a href="#" className="i-check" onClick={() => changeStatus(value.id)} ><i className="fa fa-check" aria-hidden="true"></i></a>
+              </div>
+              <Input 
+              {...value}
+              handleChangeEidt={ChangeEidt}
+              />
+              <div className=" col-md-2 text-center" > {value.created } 
+              </div>
+              <div className=" col-md-2 text-center" > {value.dead } 
+              </div>
+              <div className="col-md-1 text-right">
+                <a href="#" className={classnames('i-trash mr-md-3',value.status === 1 && 'd-lg-none')}><i className="fa fa-pencil " aria-hidden="true"></i></a>
+                <a href="#" className={classnames('i-trash',value.status === 1 && 'd-lg-none')} onClick={() => Remove(value.id)}><i className="fa fa-trash-o " aria-hidden="true"></i></a>
+              </div>
+            </div>
+          )}
+          return null
+        })
+      }
+    </div>
+    )
+  }
+
 class MainTasks extends React.Component{
     constructor(props){
       super(props);
@@ -63,7 +143,7 @@ class MainTasks extends React.Component{
         text: '',
         deadline:'',
         filterStatus:0,
-        showedit:false,  
+        showedit:false,
         textedit:''
       }
   }
@@ -157,81 +237,38 @@ class MainTasks extends React.Component{
 
     render(){
       return (
-        <div className='row'>
           <div className='col-md-10 col-10 offset-1 offset-md-1 bg-black'>
             <div className="row">
               <div className="col-lg-7 col-md-6 ">
                 <div className="heading-left text-md-left text-center">
                   <DateTime/>
-                  <div className="count-active-tasks">
-                    {this.state.tasks.length} Active Tasks
-                  </div>
+                  <TasksActive arr={this.state.tasks} />
                 </div>
               </div>
               <div className="col-lg-5 col-md-6 ">
-                <div className="row">
-                    <div className={classnames('col-md-6 text-center task-filter', this.state.filterStatus === 0 && "active")} onClick={() => this.toggleFilter(0)}>Incomplete Tasks</div>
-                    <div className={classnames('col-md-6 text-center task-filter', this.state.filterStatus === 1 && "active")} onClick={() => this.toggleFilter(1)}>Completed Tasks </div>
-                </div>
+                  <ToggleFilter filter = {this.state.filterStatus}
+                                Toggle = {this.toggleFilter}
+                  />
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-7">
-                <form className="form-custom" onSubmit={this.handleAdd}>
-                  <input className="input-task" placeholder="Enter a task..." type="text" 
-                    onChange={this.handleChange}
-                    value={this.state.text}
-                  />
-                  <input className="input-task ml-10px" placeholder="Enter a deadline..." type="text" 
-                    onChange={this.inputDeadline}
-                    value={this.state.deadline}
-                  />
-                  <button type="submit" className="btn-add" >Add Tasks</button>
-                </form>
-              </div>
+              <AddTask 
+                Change={this.handleChange}
+                Title={this.state.text}
+                ChangeDeadline={this.inputDeadline}
+                Deadline={this.state.deadline}
+                Add={this.handleAdd}
+               />
               <div className="col-lg-5"></div>
-              <div className="col-lg-12 mt-lg-4" >
-                {
-                  this.state.tasks.map(value => {
-                    if(value.status === this.state.filterStatus){
-                      return(
-                      <div className= "row taskk" key={value.id}>
-                        <div className="col-md-1">
-                          <a href="#" className="i-check" onClick={this.changeStatus.bind(this,value.id)} ><i className="fa fa-check" aria-hidden="true"></i></a>
-                        </div>
-                        {/* <div className={classnames(" col-md-6 task-edit",this.state.showedit === false ? 'd-static' :'d-none')} onClick={this.handleEditting}>{value.content}</div>
-                        <div className={classnames('col-md-6 task-edit',this.state.showedit === true ? 'd-static' :'d-none')} >
-                          <input 
-                            className='form-control'
-                            type='text' 
-                            onKeyDown={(event) => this.handleEditDone(event,value.id)}
-                            onChange={this.handleChangeEidt}
-                            defaultValue={value.content}
-                          />
-                        </div> */}
-                        <Input 
-                        {...value}
-                        handleChangeEidt={this.handleChangeEidt}
-                        // handleEditDone={(event) => this.handleEditDone(event,value.id)}
-                          // value={value.content}
-                        />
-                        <div className=" col-md-2 text-center" > {value.created } 
-                        </div>
-                        <div className=" col-md-2 text-center" > {value.dead } 
-                        </div>
-                        <div className="col-md-1 text-right">
-                          <a href="#" className={classnames('i-trash mr-md-3',value.status === 1 && 'd-lg-none')}><i className="fa fa-pencil " aria-hidden="true"></i></a>
-                          <a href="#" className={classnames('i-trash',value.status === 1 && 'd-lg-none')} onClick={this.handleRemove.bind(this,value.id)}><i className="fa fa-trash-o " aria-hidden="true"></i></a>
-                        </div>
-                      </div>
-                    )}
-                    return null
-                  })
-                }
-              </div>
+              <ShowTasks
+                  tasks = {this.state.tasks}
+                  status = {this.state.filterStatus}
+                  changeStatus = {this.changeStatus}
+                  Remove = {this.handleRemove}
+                  ChangeEidt = {this.handleChangeEidt}
+              />
           </div>
         </div>
-      </div>
       )
     }
   }
