@@ -8,6 +8,9 @@
 .root{
     overflow-x:hidden;
 }
+.ant-form-inline .ant-form-item-with-help{
+    margin-bottom: 0;
+}
 .custom-bg{
     background: rgb(97,220,251);
     height: 100vh   ;

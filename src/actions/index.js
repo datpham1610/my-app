@@ -1,19 +1,7 @@
-import { v4 as uuidv4 } from 'uuid'
-
 export const addTodo = (content,dead) => ({
     type:'ADD_TODO',
-    // payload: {
-    //     id: uuidv4(),
-    //     content,
-    //     dead,
-    //     status: false,
-    //     created: new Date().toLocaleDateString()
-    // }
-    id: uuidv4(),
     content,
-    dead,
-    status: false,
-    created: new Date().toLocaleDateString()
+    dead
 })
 
 export const completeTodo = id => ({

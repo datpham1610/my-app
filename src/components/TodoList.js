@@ -1,9 +1,7 @@
 import React from 'react'
 import Todo from './Todo'
-import PropTypes from 'prop-types'
-import {editTodo} from '../actions'
 import {connect} from 'react-redux'
-import { Row, Col } from 'antd';
+import { Col } from 'antd';
 import "antd/dist/antd.css"; 
 
 const TodoList = ({todos}) => {

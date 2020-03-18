@@ -1,21 +1,23 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {editTodo} from '../actions'
 import { Input } from 'antd';
 
-const EditTodo = ({id,content}) => {
-    const UpdateContent = (e) => {
-        if(e.keyCode === 13 || e.type === "mouseout"){
-            editTodo({id,content:e.target.value})
-        }
-    }
+
+const EditTodo = ({id,content, editTodo}) => {
     return (
         <Input 
             className='form-control'
             type='text' 
             // onMouseOut={}
-            onKeyDown={UpdateContent(id)}
+            onKeyDown={e => {
+                if(e.keyCode === 13){
+                    editTodo({id, content: e.target.value})
+                }
+            }}
             defaultValue={content}
+            disabled
         />
     )
 }

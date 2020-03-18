@@ -2,28 +2,50 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../actions'
 import { DatePicker, Form, Input, Button, Col } from 'antd';
-import "antd/dist/antd.css";
-import "antd/dist/antd.js";
+import "antd/dist/antd.css";  
 
+// const onFinish = (values,props) => {
+//   props.addTodo(values.content,values.deadline.format("MM/DD/Y"))
+// };
 
-const AddTodo = () => {
-  const onFinish = values =>{
-      console.log('All',values)
-  }
+const AddTodo = (props) => {
+  const formRef = React.createRef()
   return (
       <Col lg={{span:14}}>
         <Form className="form-custom"
-          onFinish = {onFinish}
+          onFinish = {values => {
+            props.addTodo(values.content,values.deadline.format("DD/MM/Y"))
+            formRef.current.resetFields();
+          }}
+          ref = {formRef}
+          name="control-ref"
           layout = "inline"
         >
-        <Form.Item>
+        <Form.Item 
+          name='content' 
+          rules={[
+            {
+              required: true,
+              message: 'Please input task!',
+            },
+          ]}
+        >
           <Input 
             className=" form-control" 
             placeholder="Enter a task..." 
             type="text" 
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item 
+          name="deadline"
+          name='content' 
+          rules={[
+            {
+              required: true,
+              message: 'Please choose deadline!',
+            },
+          ]}
+        >
           <DatePicker className="form-control" />
         </Form.Item>
         <Form.Item shouldUpdate={true}>
@@ -36,7 +58,7 @@ const AddTodo = () => {
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    addTodo : (id,content) => dispatch(addTodo(id,content))
+    addTodo : (content,deadline) => dispatch(addTodo(content,deadline))
   }
 }
 
