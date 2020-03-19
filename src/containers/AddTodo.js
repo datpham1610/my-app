@@ -38,7 +38,6 @@ const AddTodo = (props) => {
         </Form.Item>
         <Form.Item 
           name="deadline"
-          name='content' 
           rules={[
             {
               required: true,

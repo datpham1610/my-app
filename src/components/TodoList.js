@@ -10,13 +10,12 @@ const TodoList = ({todos}) => {
     <Col lg={{span:24}} className=" mt-lg-4" >
     {
       todos.map(value => {
-        if(value.status===false){
+        if(value.status===1){
           return(
             <Todo
                 key = {value.id}
                 {...value}
             />
-
         )}
         return null
       })

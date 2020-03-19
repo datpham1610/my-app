@@ -1,8 +1,8 @@
 import React from 'react'
 import AddTodo from '../containers/AddTodo'
+import Filter from '../containers/Filter'
 import TodoList from './TodoList'
 import DateTime from './Date'
-import Filter from '../containers/Filter'
 import { Row, Col } from 'antd';
 import "antd/dist/antd.css"; 
 

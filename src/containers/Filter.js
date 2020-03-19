@@ -1,18 +1,28 @@
 import React from 'react'
+import { Col, Row } from 'antd';
+import "antd/dist/antd.css"; 
 import classnames from 'classnames'
-import {connect} from 'react-redux'
-import {completeTodo, showTask} from '../actions'
-import TodoList from '../components/TodoList'
-import {Row, Col} from 'antd'
-import "antd/dist/antd.css";  
+import { toggleFilter } from '../actions';
+import { connect } from 'react-redux';
 
-const ToggleFilter = () =>{
+const ToggleFilter = (props) =>{
     return(
         <Row>
-        <Col md={{span:12}} className={classnames(' text-center task-filter')}>Incomplete Tasks</Col>
-        <Col md={{span:12}} className={classnames(' text-center task-filter')}>Completed Tasks </Col>
+        <Col md={{span:12}} className={classnames(' text-center task-filter')}
+            onClick={() => props.toggleFilter(1)}
+        >Incomplete Tasks</Col>
+        <Col md={{span:12}} className={classnames(' text-center task-filter')} 
+            onClick={() => props.toggleFilter(2)}
+        >Completed Tasks </Col>
       </Row>
     )
 }
 
-export default ToggleFilter
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        toggleFilter : (status) => dispatch(toggleFilter(status))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(ToggleFilter)
