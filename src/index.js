@@ -8,12 +8,24 @@ import * as serviceWorker from "./serviceWorker";
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import countReducer from './reducers'
+import Nav from './components/Nav'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
 let store = createStore(countReducer)
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Nav/>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

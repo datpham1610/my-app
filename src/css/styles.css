@@ -8,6 +8,12 @@
 .root{
     overflow-x:hidden;
 }
+li a{
+    color:#000
+}
+li.active a{
+    font-weight: bold;
+}
 .ant-form-inline .ant-form-item-with-help{
     margin-bottom: 0;
 }
